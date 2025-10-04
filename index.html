@@ -66,8 +66,15 @@
 
   <h1>Hunok Kvíz</h1>
 
+  <!-- Név bekérése -->
+  <div id="nameScreen">
+    <label>Add meg a neved:</label><br/>
+    <input type="text" id="playerName" placeholder="Név" /><br/>
+    <button onclick="startQuiz()">Tovább</button>
+  </div>
+
   <!-- Ismeretterjesztő képernyő -->
-  <div id="infoScreen">
+  <div id="infoScreen" style="display:none;">
     <h2>Ismeretterjesztő szöveg</h2>
     <p>
       <strong>A hunok – Történelmi áttekintés</strong><br/><br/>
@@ -89,7 +96,7 @@
       <strong>Életmód és kultúra</strong><br/><br/>
       A hunok <strong>nomád pásztoréletet</strong> éltek, kiváló lovasok és harcosok voltak. Híresek voltak az íjászatban, különösen a <strong>kompozit íj</strong> használatáról. Társadalmuk törzsi alapon szerveződött, erős központi vezető (kagán vagy király) irányításával.
     </p>
-    <button onclick="startQuiz()">Tovább</button>
+    <button onclick="startQuizFromInfo()">Tovább</button>
   </div>
 
   <!-- Kvíz képernyő -->
@@ -123,12 +130,20 @@
     let score = 0;
     let playerName = "";
 
-    // Kvíz indítása
+    // Név bekérése
     function startQuiz() {
-      const nameInput = document.getElementById("playerName") ? document.getElementById("playerName").value.trim() : "";
-      if (nameInput) {
-        playerName = nameInput;
+      const nameInput = document.getElementById("playerName").value.trim();
+      if (!nameInput) {
+        alert("Kérlek, add meg a neved!");
+        return;
       }
+      playerName = nameInput;
+      document.getElementById("nameScreen").style.display = "none";  // Elrejti a név bekérőt
+      document.getElementById("infoScreen").style.display = "block";  // Megjeleníti az ismeretterjesztő szöveget
+    }
+
+    // Ismeretterjesztő szöveg után
+    function startQuizFromInfo() {
       document.getElementById("infoScreen").style.display = "none";  // Elrejti az ismeretterjesztő szöveget
       document.getElementById("quizScreen").style.display = "block";  // Megjeleníti a kvízt
       showQuestion();
@@ -182,7 +197,7 @@
       currentQuestion = 0;
       score = 0;
       document.getElementById("resultScreen").style.display = "none";
-      document.getElementById("infoScreen").style.display = "block";  // Vissza az ismeretterjesztő szöveghez
+      document.getElementById("nameScreen").style.display = "block";  // Vissza a név bekéréshez
     }
   </script>
 
