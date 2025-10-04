@@ -65,17 +65,60 @@
 <body>
 
   <h1>Hunok Kvíz</h1>
-  <div id="welcomeScreen">
-    <label>Add meg a neved:</label><br/>
-    <input type="text" id="playerName" placeholder="Név" /><br/>
-    <button onclick="startQuiz()">Kvíz indítása</button>
+
+  <!-- Ismeretterjesztő képernyő -->
+  <div id="infoScreen">
+    <h2>Ismeretterjesztő szöveg</h2>
+    <p>
+      A hunok – Történelmi áttekintés<br/>
+     A hunok – Történelmi áttekintés
+
+A hunok egy nomád lovas nép voltak, akik a 4–5. században jelentős szerepet játszottak Európa és Ázsia történelmében. Eredetük pontosan nem tisztázott, de a legtöbb kutató úgy véli, hogy belső-ázsiai sztyeppei népek leszármazottjai, akik a mai Mongólia, Közép-Ázsia területéről indultak el nyugatra.
+
+
+Megjelenésük Európában
+
+A hunok a 4. század végén jelentek meg a mai Oroszország és Ukrajna területén, ahol meghódították az alánokat, majd legyőzték a gótokat is, akik ezután menekülni kezdtek a Római Birodalom területére. Ezzel a hunok láncreakciót indítottak el, amely hozzájárult a Nyugatrómai Birodalom bukásához.
+
+
+
+Attila – A "világ ostora"
+
+A hunok legismertebb vezére **Attila** volt, aki a 5. század közepén (kb. 434–453 között) uralkodott. Birodalma a mai Németországtól a Fekete-tengerig és a Duna-medencétől a Balti-tengerig terjedt. Attila többször vezetett hadjáratokat a Keletrómai (Bizánci) és a Nyugatrómai Birodalom ellen is. Bár hírhedt kegyetlenségéről, ugyanakkor politikai ügyességéről is ismert volt.
+
+
+
+A hun birodalom bukása
+
+Attila halála után (453-ban) fiai között széthullott a hun birodalom. Az alávetett népek fellázadtak, és a hunok hatalma gyorsan meggyengült. A maradvány hun népek beolvadtak más sztyeppei törzsekbe, például az avarok vagy bolgárok közé.
+
+
+
+A hunok hatása és emlékezete
+
+ A hunok emléke különösen fontos szerepet játszik **magyar történeti hagyományban** is. A középkori magyar krónikák szerint a hunok a magyarok ősei, és Attilát ősi királyukként tartották számon.
+ A valós történelmi kapcsolatok vitatottak, de kulturálisan és szimbolikusan a hun hagyomány mélyen beágyazódott a magyar nemzeti identitásba.
+
+
+
+Életmód és kultúra
+
+A hunok **nomád pásztoréletet** éltek, kiváló lovasok és harcosok voltak.
+Híresek voltak az íjászatban, különösen a **kompozit íj** használatáról.
+Társadalmuk törzsi alapon szerveződött, erős központi vezető (kagán vagy király) irányításával.
+      <br/><br/>
+      [További szöveg jön itt...]
+    </p>
+    <button onclick="startQuiz()">Tovább</button>
   </div>
 
+  <!-- Kvíz képernyő -->
   <div id="quizScreen" style="display:none;">
     <h2 id="questionText"></h2>
     <div class="answers" id="answersContainer"></div>
   </div>
 
+  <!-- Eredmény képernyő -->
   <div id="resultScreen" style="display:none;">
     <h2>Kvíz vége!</h2>
     <p id="resultText"></p>
@@ -88,28 +131,26 @@
       {
         question: "Melyik képen látható Attila, a hunok királya?",
         answers: [
-          { img: "https://btia1.github.io/hunquiz/attilaahun.jpeg", correct: true },
-          { img: "https://btia1.github.io/hunquiz/batukan.jpeg", correct: false },
-          { img: "https://btia1.github.io/hunquiz/istvankiraly.jpeg", correct: false }
+          { img: "attilaahun.jpeg", correct: true },
+          { img: "batukan.jpeg", correct: false },
+          { img: "istvankiraly.jpeg", correct: false }
         ]
       },
-      // További kérdések jöhetnek
+      // További kérdések jöhetnek...
     ];
 
     let currentQuestion = 0;
     let score = 0;
     let playerName = "";
 
-    // A kvíz indítása
+    // Kvíz indítása
     function startQuiz() {
-      const nameInput = document.getElementById("playerName").value.trim();
-      if (!nameInput) {
-        alert("Kérlek, add meg a neved!");
-        return;
+      const nameInput = document.getElementById("playerName") ? document.getElementById("playerName").value.trim() : "";
+      if (nameInput) {
+        playerName = nameInput;
       }
-      playerName = nameInput;
-      document.getElementById("welcomeScreen").style.display = "none";
-      document.getElementById("quizScreen").style.display = "block";
+      document.getElementById("infoScreen").style.display = "none";  // Elrejti az ismeretterjesztő szöveget
+      document.getElementById("quizScreen").style.display = "block";  // Megjeleníti a kvízt
       showQuestion();
     }
 
@@ -161,7 +202,7 @@
       currentQuestion = 0;
       score = 0;
       document.getElementById("resultScreen").style.display = "none";
-      document.getElementById("welcomeScreen").style.display = "block";
+      document.getElementById("infoScreen").style.display = "block";  // Vissza az ismeretterjesztő szöveghez
     }
   </script>
 
