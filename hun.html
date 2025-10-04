@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hunok Kvíz</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 20px auto;
+      padding: 10px;
+      background-color: #f4f4f4;
+    }
+
+    h1, h2 {
+      text-align: center;
+    }
+
+    .question {
+      font-size: 1.5em;
+      margin-bottom: 20px;
+    }
+
+    .answers {
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .answer {
+      cursor: pointer;
+      border: 2px solid transparent;
+      padding: 5px;
+      border-radius: 8px;
+      transition: border-color 0.3s;
+      text-align: center;
+    }
+
+    .answer:hover {
+      border-color: #007BFF;
+    }
+
+    .answer img {
+      max-width: 150px;
+      max-height: 120px;
+      display: block;
+    }
+
+    .result {
+      text-align: center;
+      font-size: 1.2em;
+      margin-top: 30px;
+    }
+
+    button {
+      display: block;
+      margin: 20px auto;
+      padding: 10px 20px;
+      font-size: 1em;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Hunok Kvíz</h1>
+  <div id="welcomeScreen">
+    <label>Add meg a neved:</label><br/>
+    <input type="text" id="playerName" placeholder="Név" /><br/>
+    <button onclick="startQuiz()">Kvíz indítása</button>
+  </div>
+
+  <div id="quizScreen" style="display:none;">
+    <h2 id="questionText"></h2>
+    <div class="answers" id="answersContainer"></div>
+  </div>
+
+  <div id="resultScreen" style="display:none;">
+    <h2>Kvíz vége!</h2>
+    <p id="resultText"></p>
+    <button onclick="restartQuiz()">Újraindítás</button>
+  </div>
+
+  <script>
+    // --- Kvíz adatok ---
+    const quizData = [
+      {
+        question: "Melyik képen látható Attila, a hunok királya?",
+        answers: [
+          { img: "images/attilaahun.jpeg", correct: true },
+          { img: "images/batukan.jpeg", correct: false },
+          { img: "images/istvankiraly.jpeg", correct: false }
+        ]
+      },
+      // További kérdések jöhetnek
+    ];
+
+    let currentQuestion = 0;
+    let score = 0;
+    let playerName = "";
+
+    // A kvíz indítása
+    function startQuiz() {
+      const nameInput = document.getElementById("playerName").value.trim();
+      if (!nameInput) {
+        alert("Kérlek, add meg a neved!");
+        return;
+      }
+      playerName = nameInput;
+      document.getElementById("welcomeScreen").style.display = "none";
+      document.getElementById("quizScreen").style.display = "block";
+      showQuestion();
+    }
+
+    // Kérdés megjelenítése
+    function showQuestion() {
+      const q = quizData[currentQuestion];
+      document.getElementById("questionText").innerText = q.question;
+      const answersDiv = document.getElementById("answersContainer");
+      answersDiv.innerHTML = "";
+
+      q.answers.forEach((answer, idx) => {
+        const btn = document.createElement("div");
+        btn.classList.add("answer");
+        const img = document.createElement("img");
+        img.src = answer.img;
+        img.alt = "válasz kép " + (idx + 1);
+        btn.appendChild(img);
+        btn.onclick = () => selectAnswer(answer.correct, btn);
+        answersDiv.appendChild(btn);
+      });
+    }
+
+    // Válasz kiválasztása
+    function selectAnswer(isCorrect, btn) {
+      if (isCorrect) {
+        score++;
+        alert("Helyes! Ügyes vagy!");
+      } else {
+        alert("Helytelen válasz.");
+      }
+
+      currentQuestion++;
+      if (currentQuestion < quizData.length) {
+        showQuestion();
+      } else {
+        showResult();
+      }
+    }
+
+    // Eredmény megjelenítése
+    function showResult() {
+      document.getElementById("quizScreen").style.display = "none";
+      document.getElementById("resultScreen").style.display = "block";
+      document.getElementById("resultText").innerText = `${playerName}, ${score} helyes választ adtál a ${quizData.length} kérdésből.`;
+    }
+
+    // Újraindítás
+    function restartQuiz() {
+      currentQuestion = 0;
+      score = 0;
+      document.getElementById("resultScreen").style.display = "none";
+      document.getElementById("welcomeScreen").style.display = "block";
+    }
+  </script>
+
+</body>
+</html>
